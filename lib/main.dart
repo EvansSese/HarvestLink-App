@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harvestlink_app/templates/components/text_components.dart';
 
 void main() {
   runApp(const HarvestLink());
@@ -14,14 +15,11 @@ class HarvestLink extends StatelessWidget {
       home: SafeArea(
         child: Scaffold(
           appBar: AppBar(
-            title: const Text(
-              "HarvestLink",
-              style: TextStyle(color: Colors.white),
-            ),
+            title: largeTextWhite("HarvestLink"),
             backgroundColor: Colors.green.shade900,
           ),
-          body: const Center(
-            child: Text("Welcome to harvestlink!"),
+          body: Center(
+            child: smallTextBlack("Welcome to HarvestLink!"),
           ),
         ),
       ),

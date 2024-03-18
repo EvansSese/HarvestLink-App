@@ -20,6 +20,17 @@ Widget largeTextBlack(string) {
   );
 }
 
+Widget headerTextBlack(string) {
+  return Text(
+    string,
+    style: const TextStyle(
+      color: Colors.black,
+      fontSize: 32.0,
+      fontWeight: FontWeight.bold
+    ),
+  );
+}
+
 Widget mediumTextWhite(string) {
   return Text(
     string,

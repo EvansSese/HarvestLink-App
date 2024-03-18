@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harvestlink_app/features/auth/views/login.dart';
 import 'package:harvestlink_app/features/onboarding/welcome.dart';
 
 void main() {
@@ -12,7 +13,7 @@ class HarvestLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Welcome(),
+      home: LoginScreen(),
     );
   }
 }

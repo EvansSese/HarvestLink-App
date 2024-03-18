@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harvestlink_app/templates/components/text_components.dart';
+import 'package:harvestlink_app/features/onboarding/welcome.dart';
 
 void main() {
   runApp(const HarvestLink());
@@ -10,19 +10,9 @@ class HarvestLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SafeArea(
-        child: Scaffold(
-          appBar: AppBar(
-            title: largeTextWhite("HarvestLink"),
-            backgroundColor: Colors.green.shade900,
-          ),
-          body: Center(
-            child: smallTextBlack("Welcome to HarvestLink!"),
-          ),
-        ),
-      ),
+      home: Welcome(),
     );
   }
 }

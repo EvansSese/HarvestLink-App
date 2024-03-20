@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
-import 'package:harvestlink_app/templates/constants/spacing.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -15,10 +14,10 @@ class LoginScreen extends StatelessWidget {
           child: Column(
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Image(image: AssetImage(HLImage.hLogo)),
-                  headerTextBlack("Welcome Back"),
+                  headerTextBlack("Welcome"),
                   const SizedBox(
                     height: 22.0,
                   )
@@ -83,7 +82,7 @@ class LoginScreen extends StatelessWidget {
                           onPressed: () {},
                           style: OutlinedButton.styleFrom(
                               shape: const ContinuousRectangleBorder()),
-                          child: largeTextBlack("Create account"),
+                          child: largeTextBlack("Register"),
                         ),
                       ),
                     ],

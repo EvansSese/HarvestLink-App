@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:harvestlink_app/features/consumer/views/home.dart';
 
 class NavigationMenu extends StatefulWidget {
   const NavigationMenu({super.key});
@@ -50,7 +51,7 @@ class _NavigationMenuState extends State<NavigationMenu> {
   Widget _getPage(int index) {
     switch (index) {
       case 0:
-        return const Center(child: Text('Home Page'));
+        return const HomePage();
       case 1:
         return const Center(child: Text('Market Page'));
       case 2:

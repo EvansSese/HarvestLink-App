@@ -14,7 +14,7 @@ class HarvestLink extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: RegisterScreen(),
+      home: LoginScreen(),
     );
   }
 }

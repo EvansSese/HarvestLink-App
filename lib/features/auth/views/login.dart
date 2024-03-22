@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:harvestlink_app/features/auth/views/register.dart';
+import 'package:harvestlink_app/navigation_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,16 +60,20 @@ class LoginScreen extends StatelessWidget {
                           Row(
                             children: [
                               Checkbox(
-                                value: true,
+                                value: _isChecked,
                                 activeColor: Colors.green.shade900,
-                                onChanged: (value) {},
+                                onChanged: (bool? newValue) {
+                                  setState(() {
+                                    _isChecked = newValue!;
+                                  });
+                                },
                               ),
                               smallTextBlack("Remember me"),
                             ],
                           ),
                           TextButton(
                             onPressed: () {},
-                            child: smallTextBlack("Forgot password"),
+                            child: smallTextBlack("Forgot password?"),
                           )
                         ],
                       ),
@@ -68,7 +81,11 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                  const NavigationMenu())),
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green.shade900,
                               shape: const ContinuousRectangleBorder()),
@@ -79,7 +96,11 @@ class LoginScreen extends StatelessWidget {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const RegisterScreen())),
                           style: OutlinedButton.styleFrom(
                               shape: const ContinuousRectangleBorder()),
                           child: largeTextBlack("Register"),

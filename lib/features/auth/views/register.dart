@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:harvestlink_app/features/auth/views/login.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
+  bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +58,9 @@ class RegisterScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 16.0,),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
                     TextFormField(
                       expands: false,
                       decoration: const InputDecoration(
@@ -59,7 +69,27 @@ class RegisterScreen extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    const SizedBox(height: 16.0,),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    DropdownButtonFormField(
+                      decoration: const InputDecoration(
+                        labelText: "Choose account type",
+                        prefixIcon: Icon(Icons.account_box_rounded),
+                        border: OutlineInputBorder(),
+                      ),
+                      onChanged: (item) {},
+                      hint: const Text("Register as..."),
+                      items: <String>['Farmer', 'Consumer'].map((String value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
                     TextFormField(
                       expands: false,
                       decoration: const InputDecoration(
@@ -68,9 +98,12 @@ class RegisterScreen extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    const SizedBox(height: 16.0,),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
                     TextFormField(
                       expands: false,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: "Create Password",
                         prefixIcon: Icon(Icons.key_rounded),
@@ -78,14 +111,69 @@ class RegisterScreen extends StatelessWidget {
                         border: OutlineInputBorder(),
                       ),
                     ),
-                    const SizedBox(height: 16.0,),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
                     TextFormField(
                       expands: false,
+                      obscureText: true,
                       decoration: const InputDecoration(
                         labelText: "Confirm Password",
                         prefixIcon: Icon(Icons.key_rounded),
                         suffixIcon: Icon(Icons.remove_red_eye_outlined),
                         border: OutlineInputBorder(),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _isChecked,
+                          activeColor: Colors.green.shade900,
+                          onChanged: (bool? newValue) {
+                            setState(() {
+                              _isChecked = newValue!;
+                            });
+                          },
+                        ),
+                        smallTextBlack("I agree to the "),
+                        Text(
+                          "Terms and conditions",
+                          style: TextStyle(
+                              color: Colors.green.shade900,
+                              decoration: TextDecoration.underline),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.green.shade900,
+                            shape: const ContinuousRectangleBorder()),
+                        child: largeTextWhite("Register"),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16.0,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                const LoginScreen())),
+                        style: OutlinedButton.styleFrom(
+                            shape: const ContinuousRectangleBorder()),
+                        child: mediumTextBlack("Login instead"),
                       ),
                     ),
                   ],

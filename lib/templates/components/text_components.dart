@@ -31,6 +31,17 @@ Widget headerTextBlack(string) {
   );
 }
 
+Widget subHeaderTextBlack(string) {
+  return Text(
+    string,
+    style: const TextStyle(
+        color: Colors.black,
+        fontSize: 24.0,
+        fontWeight: FontWeight.bold
+    ),
+  );
+}
+
 Widget mediumTextWhite(string) {
   return Text(
     string,

@@ -13,7 +13,7 @@ class HomeConsumerAppBar extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          mediumTextBlack("Evans Sese"),
+          headerTextBlack("HarvestLink"),
         ],
       ),
       actions: [

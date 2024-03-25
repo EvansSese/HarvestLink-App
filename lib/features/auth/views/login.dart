@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/features/auth/views/register.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/consumer/views/home.dart';
-import 'package:harvestlink_app/navigation_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
-import 'package:http/http.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,13 +13,20 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   bool _isChecked = false;
   bool _obscureText = true;
-  bool _failedLogin = false;
-  late List data;
+
+  _isFilled(value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter information';
+    }
+    return null;
+  }
 
   void _toggleObscureText() {
     setState(() {
@@ -31,24 +34,15 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  void _getData() async {
-    List _res = await HTTPHandler().getData('/');
-    setState(() {
-      data = _res;
-    });
-    print(data[0]['farmer']);
-  }
-
   Future<int> _login(String email, String password) async {
     Map<String, String> credentials = {'email': email, 'password': password};
     int status = await HTTPHandler().postData('/login', credentials);
-    print(status);
     return int.parse(status.toString());
   }
 
   @override
   void initState() {
-    _getData();
+    HTTPHandler().getData('/');
     super.initState();
   }
 
@@ -73,9 +67,11 @@ class _LoginScreenState extends State<LoginScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 22.0),
                 child: Form(
+                  key: _formKey,
                   child: Column(
                     children: [
                       TextFormField(
+                        validator: (value) => _isFilled(value),
                         controller: emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
@@ -86,6 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       const SizedBox(height: 16.0),
                       TextFormField(
+                        validator: (value) => _isFilled(value),
                         controller: passwordController,
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: _obscureText,
@@ -132,6 +129,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () async {
+                            if (_formKey.currentState!.validate()) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content: Text('Processing Data')),
+                              );
+                            }
+
                             int status = await _login(
                                 emailController.text, passwordController.text);
                             if (!context.mounted) return;
@@ -145,13 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 content: const Text("Wrong email or password!"),
                                 backgroundColor: Colors.red.shade900,
                                 action: SnackBarAction(
-                                    label: "Try again",
-                                    onPressed: () {
-                                      setState(() {
-                                        emailController.text = "";
-                                        passwordController.text = "";
-                                      });
-                                    }),
+                                    label: "Try again", onPressed: () {}),
                               );
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(snackBar);

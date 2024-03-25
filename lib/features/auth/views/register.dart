@@ -10,7 +10,24 @@ class RegisterScreen extends StatefulWidget {
 }
 
 class _RegisterScreenState extends State<RegisterScreen> {
+  final _formKey = GlobalKey<FormState>();
+
+  final fNameController = TextEditingController();
+  final lNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final accTypeController = TextEditingController();
+  final locationController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+
   bool _isChecked = false;
+
+  _isFilled(value) {
+    if (value == null || value.isEmpty) {
+      return 'Please enter information';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,12 +48,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               largeTextBlack("Let's create your account"),
               const SizedBox(height: 32.0),
               Form(
+                key: _formKey,
                 child: Column(
                   children: [
                     Row(
                       children: [
                         Expanded(
                           child: TextFormField(
+                            validator: (value) => _isFilled(value),
                             expands: false,
                             decoration: const InputDecoration(
                               labelText: "First name",
@@ -48,6 +67,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(width: 16.0),
                         Expanded(
                           child: TextFormField(
+                            validator: (value) => _isFilled(value),
                             expands: false,
                             decoration: const InputDecoration(
                               labelText: "Last name",
@@ -62,6 +82,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.0,
                     ),
                     TextFormField(
+                      validator: (value) => _isFilled(value),
                       expands: false,
                       decoration: const InputDecoration(
                         labelText: "Email address",
@@ -73,6 +94,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.0,
                     ),
                     DropdownButtonFormField(
+                      validator: (value) => _isFilled(value),
                       decoration: const InputDecoration(
                         labelText: "Choose account type",
                         prefixIcon: Icon(Icons.account_box_rounded),
@@ -91,6 +113,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.0,
                     ),
                     TextFormField(
+                      validator: (value) => _isFilled(value),
                       expands: false,
                       decoration: const InputDecoration(
                         labelText: "Location",
@@ -102,6 +125,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.0,
                     ),
                     TextFormField(
+                      validator: (value) => _isFilled(value),
                       expands: false,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -115,6 +139,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       height: 16.0,
                     ),
                     TextFormField(
+                      validator: (value) => _isFilled(value),
                       expands: false,
                       obscureText: true,
                       decoration: const InputDecoration(
@@ -153,7 +178,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     SizedBox(
                       width: double.infinity,
                       child: ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (_formKey.currentState!.validate()) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Processing Data')),
+                            );
+                          }
+                        },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.green.shade900,
                             shape: const ContinuousRectangleBorder()),
@@ -169,8 +200,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         onPressed: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                const LoginScreen())),
+                                builder: (context) => const LoginScreen())),
                         style: OutlinedButton.styleFrom(
                             shape: const ContinuousRectangleBorder()),
                         child: mediumTextBlack("Login instead"),

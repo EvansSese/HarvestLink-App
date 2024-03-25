@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:harvestlink_app/features/consumer/widgets/app_bar.dart';
+import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
 import 'package:harvestlink_app/features/consumer/widgets/home_app_bar.dart';
 import 'package:harvestlink_app/features/consumer/widgets/product_card_vertical.dart';
@@ -7,9 +7,27 @@ import 'package:harvestlink_app/features/consumer/widgets/search_container.dart'
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late List data;
+
+  void getData() async {
+    List res = await HTTPHandler().getData('/');
+    setState(() {
+      data = res;
+    });
+  }
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;

@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/features/auth/views/register.dart';
+import 'package:harvestlink_app/engine/api/http_handler.dart';
+import 'package:harvestlink_app/features/consumer/views/home.dart';
 import 'package:harvestlink_app/navigation_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
+import 'package:http/http.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,7 +17,40 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
   bool _isChecked = false;
+  bool _obscureText = true;
+  bool _failedLogin = false;
+  late List data;
+
+  void _toggleObscureText() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  void _getData() async {
+    List _res = await HTTPHandler().getData('/');
+    setState(() {
+      data = _res;
+    });
+    print(data[0]['farmer']);
+  }
+
+  Future<int> _login(String email, String password) async {
+    Map<String, String> credentials = {'email': email, 'password': password};
+    int status = await HTTPHandler().postData('/login', credentials);
+    print(status);
+    return int.parse(status.toString());
+  }
+
+  @override
+  void initState() {
+    _getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,19 +76,31 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: [
                       TextFormField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                            prefixIcon: Icon(Icons.email_outlined),
-                            labelText: "Email address",
-                            border: OutlineInputBorder()),
+                          prefixIcon: Icon(Icons.email_outlined),
+                          labelText: "Email address",
+                          border: OutlineInputBorder(),
+                        ),
                       ),
                       const SizedBox(height: 16.0),
                       TextFormField(
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          prefixIcon: Icon(Icons.key_rounded),
+                        controller: passwordController,
+                        keyboardType: TextInputType.visiblePassword,
+                        obscureText: _obscureText,
+                        decoration: InputDecoration(
+                          prefixIcon: const Icon(Icons.key_rounded),
                           labelText: "Password",
-                          suffixIcon: Icon(Icons.remove_red_eye_sharp),
-                          border: OutlineInputBorder(),
+                          suffixIcon: GestureDetector(
+                            onTap: () {
+                              _toggleObscureText();
+                            },
+                            child: _obscureText
+                                ? const Icon(Icons.remove_red_eye_sharp)
+                                : const Icon(Icons.remove),
+                          ),
+                          border: const OutlineInputBorder(),
                         ),
                       ),
                       const SizedBox(height: 16.0),
@@ -81,11 +131,32 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: ElevatedButton(
-                          onPressed: () => Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                  const NavigationMenu())),
+                          onPressed: () async {
+                            int status = await _login(
+                                emailController.text, passwordController.text);
+                            if (!context.mounted) return;
+                            if (status == 200) {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const HomePage()));
+                            } else {
+                              final snackBar = SnackBar(
+                                content: const Text("Wrong email or password!"),
+                                backgroundColor: Colors.red.shade900,
+                                action: SnackBarAction(
+                                    label: "Try again",
+                                    onPressed: () {
+                                      setState(() {
+                                        emailController.text = "";
+                                        passwordController.text = "";
+                                      });
+                                    }),
+                              );
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(snackBar);
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.green.shade900,
                               shape: const ContinuousRectangleBorder()),

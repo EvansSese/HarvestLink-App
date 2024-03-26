@@ -8,12 +8,24 @@ import '../widgets/category_tile.dart';
 import '../widgets/search_container.dart';
 
 class ShowProducts extends StatelessWidget {
-  const ShowProducts({
+  ShowProducts({
     super.key,
     required this.screenSize,
+    required this.allProducts,
   });
 
   final Size screenSize;
+  final List allProducts;
+
+  Map<String, dynamic> categoriesMap = {
+    "Vegetables": HLImage.imageVegetables,
+    "Cereals": HLImage.imageCereals,
+    "Fruits": HLImage.imageFruits,
+    "Meat": HLImage.imageMeat,
+    "Milk": HLImage.imageMilk,
+    "Eggs": HLImage.imageEggs,
+    "Fish": HLImage.imageFish
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +51,14 @@ class ShowProducts extends StatelessWidget {
               child: SizedBox(
                 height: 80,
                 child: ListView.builder(
-                  itemCount: 5,
+                  itemCount: categoriesMap.length,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (_, index) {
+                  itemBuilder: (context, index) {
+                    var keys = categoriesMap.keys.toList();
+                    var val = categoriesMap[keys[index]];
                     return CategoryTile(
-                      imagePath: HLImage.imageVegetables,
-                      title: 'Vegetables',
+                      imagePath: val,
+                      title: keys[index],
                       onTap: () {},
                     );
                   },
@@ -64,17 +78,24 @@ class ShowProducts extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: GridView.builder(
-                  itemCount: 7,
+                  itemCount: allProducts.length,
                   shrinkWrap: true,
                   padding: EdgeInsets.zero,
                   physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 20.0,
                     childAspectRatio: 0.55,
                   ),
-                  itemBuilder: (context, index) => const ProductCardVertical()),
+                  itemBuilder: (context, index) {
+                    return ProductCardVertical(
+                      productTitle: allProducts[index]['name'],
+                      vendor: allProducts[index]['farmer'],
+                      location: allProducts[index]['location'],
+                      price: allProducts[index]['price'].toString(),
+                      image: allProducts[index]['product_image'],
+                    );
+                  }),
             ),
           ],
         ),

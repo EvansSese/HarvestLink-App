@@ -19,12 +19,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int navIndex = 0;
-  late List data;
+  List allProducts = [];
 
   void getData() async {
     List res = await HTTPHandler().getData('/');
     setState(() {
-      data = res;
+      allProducts = res;
     });
   }
 
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
   Widget _getPage(int index, screenSize) {
     switch (index) {
       case 0:
-        return ShowProducts(screenSize: screenSize);
+        return ShowProducts(screenSize: screenSize, allProducts: allProducts);
       case 1:
         return const Center(child: Text('Market Page'));
       case 2:

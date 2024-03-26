@@ -3,12 +3,31 @@ import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 
 class ProductCardVertical extends StatelessWidget {
-  const ProductCardVertical({super.key});
+  const ProductCardVertical(
+      {super.key,
+      required this.productTitle,
+      required this.vendor,
+      required this.location,
+      required this.price,
+      required this.image});
+
+  final String productTitle, vendor, location, price, image;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(action: SnackBarAction(label: 'OK', onPressed: () {},
+
+          ),
+            backgroundColor: Colors.green.shade900,
+            content:
+            const Text('Added to cart'),
+          ),
+        );
+      },
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16.0),
@@ -21,10 +40,11 @@ class ProductCardVertical extends StatelessWidget {
                 borderRadius: BorderRadius.circular(16.0),
                 color: Colors.green.shade100,
               ),
-              child: const Stack(
+              child: Stack(
                 children: [
                   Image(
-                    image: AssetImage(HLImage.imageCereals),
+                    fit: BoxFit.contain,
+                    image: NetworkImage("${HLImage.imgBaseUrl}$image.jpg"),
                   ),
                 ],
               ),
@@ -35,12 +55,12 @@ class ProductCardVertical extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(height: 8.0),
-                  const Text(
-                    "Maize",
+                  Text(
+                    productTitle,
                     textAlign: TextAlign.left,
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 18.0,
                     ),
@@ -49,10 +69,10 @@ class ProductCardVertical extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Text(
-                        "Evans Farmer",
+                      Text(
+                        vendor,
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.w400,
                         ),
@@ -66,10 +86,10 @@ class ProductCardVertical extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(width: 4.0),
-                  const Text(
-                    "Nairobi",
+                  Text(
+                    location,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 12.0,
                       fontWeight: FontWeight.w400,
                     ),
@@ -78,12 +98,25 @@ class ProductCardVertical extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        "Ksh 100",
-                        style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text(
+                            "Kes",
+                            style: TextStyle(
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(width: 4.0),
+                          Text(
+                            price,
+                            style: const TextStyle(
+                              fontSize: 24.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
                         decoration: BoxDecoration(

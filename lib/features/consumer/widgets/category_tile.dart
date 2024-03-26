@@ -20,7 +20,7 @@ class CategoryTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.only(right: 28.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               height: 60,
@@ -31,21 +31,16 @@ class CategoryTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(100),
                 border: Border.all(color: Colors.green.shade900),
               ),
-              child: Center(
-                child: Image(
-                  image: AssetImage(imagePath),
-                  fit: BoxFit.cover,
-                ),
+              child: Image(
+                image: AssetImage(imagePath),
+                fit: BoxFit.cover,
               ),
             ),
             const SizedBox(width: 8.0),
-            SizedBox(
-              width: 59,
-              child: Text(
-                title,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+            Text(
+              title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             )
           ],
         ),

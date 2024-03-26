@@ -130,29 +130,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: ElevatedButton(
                           onPressed: () async {
                             if (_formKey.currentState!.validate()) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content: Text('Processing Data')),
-                              );
-                            }
-
-                            int status = await _login(
-                                emailController.text, passwordController.text);
-                            if (!context.mounted) return;
-                            if (status == 200) {
-                              Navigator.pushReplacement(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomePage()));
-                            } else {
-                              final snackBar = SnackBar(
-                                content: const Text("Wrong email or password!"),
-                                backgroundColor: Colors.red.shade900,
-                                action: SnackBarAction(
-                                    label: "Try again", onPressed: () {}),
-                              );
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(snackBar);
+                              int status = await _login(emailController.text,
+                                  passwordController.text);
+                              if (!context.mounted) return;
+                              if (status == 200) {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const HomePage()));
+                              } else {
+                                final snackBar = SnackBar(
+                                  content:
+                                      const Text("Wrong email or password!"),
+                                  backgroundColor: Colors.red.shade900,
+                                  action: SnackBarAction(
+                                      label: "Try again", onPressed: () {}),
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
                             }
                           },
                           style: ElevatedButton.styleFrom(
@@ -165,7 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         width: double.infinity,
                         child: OutlinedButton(
-                          onPressed: () => Navigator.push(
+                          onPressed: () => Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>

@@ -9,6 +9,7 @@ class HomeConsumerAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return ConsumerAppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +47,7 @@ class HomeConsumerAppBar extends StatelessWidget {
             )
           ],
         )
-      ],
+      ], appBarHeight: screenSize.height * 0.2,
     );
   }
 }

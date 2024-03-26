@@ -8,6 +8,7 @@ class ConsumerAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.leadingIcon,
     this.leadingOnPressed,
     this.showBackArrow = false,
+    required this.appBarHeight,
   });
 
   final Widget? title;
@@ -15,9 +16,11 @@ class ConsumerAppBar extends StatelessWidget implements PreferredSizeWidget {
   final IconData? leadingIcon;
   final List<Widget>? actions;
   final VoidCallback? leadingOnPressed;
+  final double appBarHeight;
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0.0),
       child: AppBar(
@@ -40,5 +43,5 @@ class ConsumerAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   // TODO: implement preferredSize
-  Size get preferredSize => const Size.fromHeight(20.0);
+  Size get preferredSize => Size.fromHeight(appBarHeight);
 }

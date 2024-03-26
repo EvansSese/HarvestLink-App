@@ -9,6 +9,7 @@ import 'package:harvestlink_app/features/consumer/widgets/search_container.dart'
 import 'package:harvestlink_app/navigation_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
+import 'package:harvestlink_app/features/consumer/views/cart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -62,34 +63,40 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: [
-          Stack(
-            children: [
-              IconButton(
-                onPressed: () {},
-                icon: const Icon(Icons.shopping_basket),
-              ),
-              Positioned(
-                right: 5,
-                top: 5,
-                child: Container(
-                  width: 18.0,
-                  height: 18.0,
-                  decoration: BoxDecoration(
-                    color: Colors.green.shade900,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      "1",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 10.0,
+          GestureDetector(
+            onTap: (){
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const Cart()));
+            },
+            child: Stack(
+              children: [
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.shopping_basket),
+                ),
+                Positioned(
+                  right: 5,
+                  top: 5,
+                  child: Container(
+                    width: 18.0,
+                    height: 18.0,
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade900,
+                      borderRadius: BorderRadius.circular(100),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "1",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 10.0,
+                        ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           )
         ],
       ),

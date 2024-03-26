@@ -17,7 +17,6 @@ class ProductCardVertical extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(action: SnackBarAction(label: 'OK', onPressed: () {},
 

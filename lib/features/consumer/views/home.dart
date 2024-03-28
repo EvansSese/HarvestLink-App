@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/auth/views/login.dart';
+import 'package:harvestlink_app/features/consumer/views/orders.dart';
 import 'package:harvestlink_app/features/consumer/views/show_products.dart';
 import 'package:harvestlink_app/features/consumer/widgets/app_bar.dart';
 import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
@@ -16,12 +17,16 @@ import 'package:harvestlink_app/engine/storage/local_storage.dart';
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  void refreshCartBadge() {
+    createState() => _HomePageState();
+  }
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
   final localStorage = LocalStorage();
+  List<dynamic> cartData = [];
 
   int navIndex = 0;
   List allProducts = [];
@@ -47,10 +52,23 @@ class _HomePageState extends State<HomePage> {
     _getUser();
   }
 
+  void _getCartItems() async {
+    var userId = await localStorage.getUserParam('id');
+    Map<String, dynamic> params = {"consumer_id": userId};
+    List res = await HTTPHandler().getDataWithBody('/cart', params);
+    print(res);
+    setState(() {
+      cartData = res;
+    });
+    print(cartData.length.toString());
+  }
+
+
   @override
   void initState() {
     getData();
     _getUser();
+    _getCartItems();
     super.initState();
   }
 
@@ -61,7 +79,7 @@ class _HomePageState extends State<HomePage> {
       case 1:
         return const Center(child: Text('Market Page'));
       case 2:
-        return const Center(child: Text('Orders Page'));
+        return const OrdersPage();
       case 3:
         return Center(
           child: Column(
@@ -87,6 +105,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
+    int _cartCount = 0;
+    if (cartData.isNotEmpty){
+      _cartCount = cartData[0]['cart_items'].length;
+    }
+
     return Scaffold(
       appBar: ConsumerAppBar(
         appBarHeight: screenSize.height * 0.08,
@@ -106,7 +129,7 @@ class _HomePageState extends State<HomePage> {
                 },
                 icon: const Icon(Icons.shopping_basket),
               ),
-              Positioned(
+              (_cartCount != 0) ? Positioned(
                 right: 5,
                 top: 5,
                 child: Container(
@@ -116,17 +139,17 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.green.shade900,
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      "1",
-                      style: TextStyle(
+                      _cartCount.toString(),
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 10.0,
                       ),
                     ),
                   ),
                 ),
-              )
+              ) : const SizedBox(),
             ],
           )
         ],

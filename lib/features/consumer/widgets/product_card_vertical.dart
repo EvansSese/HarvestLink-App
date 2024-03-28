@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:harvestlink_app/engine/api/http_handler.dart';
+import 'package:harvestlink_app/engine/storage/local_storage.dart';
+import 'package:harvestlink_app/features/consumer/views/home.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 
 class ProductCardVertical extends StatelessWidget {
-  const ProductCardVertical(
+  ProductCardVertical(
       {super.key,
       required this.productTitle,
       required this.vendor,
       required this.location,
       required this.price,
-      required this.image});
+      required this.image,
+      required this.productId});
 
-  final String productTitle, vendor, location, price, image;
+  final String productTitle, vendor, location, price, image, productId;
+
+  final localStorage = LocalStorage();
+
+  void _addCartItem() async {
+    var userId = await localStorage.getUserParam('id');
+    Map<String, String> body = {
+      'consumer_id': userId!,
+      'product_id': productId,
+      'quantity': '1'
+    };
+    int status = await HTTPHandler().postData('/cart/add', body);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +74,9 @@ class ProductCardVertical extends StatelessWidget {
                   children: [
                     Text(
                       vendor,
+                      textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: const TextStyle(
                         fontSize: 14.0,
                         fontWeight: FontWeight.w400,
@@ -107,15 +125,20 @@ class ProductCardVertical extends StatelessWidget {
                     ),
                     GestureDetector(
                       onTap: () {
+                        _addCartItem();
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(action: SnackBarAction(label: 'OK', onPressed: () {},
-
-                          ),
+                          SnackBar(
+                            action: SnackBarAction(
+                              label: 'OK',
+                              onPressed: () {
+                              },
+                              textColor: Colors.white,
+                            ),
                             backgroundColor: Colors.green.shade900,
-                            content:
-                            const Text('Added to cart'),
+                            content: const Text('Added to cart'),
                           ),
                         );
+                        const HomePage().refreshCartBadge();
                       },
                       child: Container(
                         decoration: BoxDecoration(

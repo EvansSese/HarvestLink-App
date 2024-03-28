@@ -23,6 +23,8 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscureText = true;
   bool _isLoggedIn = false;
 
+  List userDetails = [];
+
   _isFilled(value) {
     if (value == null || value.isEmpty) {
       return 'Please enter information';
@@ -39,15 +41,30 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<int> _login(String email, String password) async {
     Map<String, String> credentials = {'email': email, 'password': password};
     int status = await HTTPHandler().postData('/login', credentials);
+    List res = await HTTPHandler().postDataRes('/login', credentials);
     int _status = int.parse(status.toString());
     if (_status == 200) {
-      print("Logged in");
-      localStorage.setIsLoggedIn(true);
-    } else {
-      print("Not logged in");
-      localStorage.setIsLoggedIn(false);
+      if (_isChecked){
+        localStorage.setIsLoggedIn(true);
+      }
+      //save user_details
+      setState(() {
+        userDetails = res;
+      });
+      _saveUserDetails(userDetails);
     }
     return _status;
+  }
+
+  Future<void> _saveUserDetails(userDetails) async {
+    Map<String, String> _userDetails = {};
+    for (var entry in userDetails[0].entries) {
+      if (entry.value is String) {
+        _userDetails[entry.key] = entry.value;
+      }
+      await localStorage.setUserParam(entry.key, entry.value);
+    }
+
   }
 
   Future<void> _getUser() async {
@@ -55,7 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         _isLoggedIn = true;
       });
+      _getUserDetails(userDetails);
     }
+  }
+
+  Future<void> _getUserDetails(userDetails) async {
+    print("User");
+    var user_d = await localStorage.getUserParam('id');
+    print(user_d);
   }
 
   @override

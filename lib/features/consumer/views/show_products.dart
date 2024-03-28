@@ -89,6 +89,7 @@ class ShowProducts extends StatelessWidget {
                   ),
                   itemBuilder: (context, index) {
                     return ProductCardVertical(
+                      productId: allProducts[index]['id'],
                       productTitle: allProducts[index]['name'],
                       vendor: allProducts[index]['farmer'],
                       location: allProducts[index]['location'],

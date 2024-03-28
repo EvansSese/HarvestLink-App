@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
+import 'package:harvestlink_app/features/auth/views/login.dart';
 import 'package:harvestlink_app/features/consumer/views/show_products.dart';
 import 'package:harvestlink_app/features/consumer/widgets/app_bar.dart';
 import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
@@ -10,6 +11,7 @@ import 'package:harvestlink_app/navigation_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 import 'package:harvestlink_app/features/consumer/views/cart.dart';
+import 'package:harvestlink_app/engine/storage/local_storage.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,8 +21,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final localStorage = LocalStorage();
+
   int navIndex = 0;
   List allProducts = [];
+  bool _isLoggedIn = false;
 
   void getData() async {
     List res = await HTTPHandler().getData('/');
@@ -29,9 +34,23 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  Future<void> _getUser() async {
+    if (await localStorage.getIsLoggedIn()) {
+      setState(() {
+        _isLoggedIn = true;
+      });
+    }
+  }
+
+  Future<void> _logOut() async {
+    await localStorage.setIsLoggedIn(false);
+    _getUser();
+  }
+
   @override
   void initState() {
     getData();
+    _getUser();
     super.initState();
   }
 
@@ -44,7 +63,22 @@ class _HomePageState extends State<HomePage> {
       case 2:
         return const Center(child: Text('Orders Page'));
       case 3:
-        return const Center(child: Text('Profile Page'));
+        return Center(
+          child: Column(
+            children: [
+              const Text('Profile Page'),
+              const SizedBox(height: 32.0),
+              ElevatedButton(
+                onPressed: () {
+                  localStorage.setIsLoggedIn(false);
+                  Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (builder)=> const LoginScreen()));
+                },
+                child: const Text("Logout"),
+              ),
+            ],
+          ),
+        );
       default:
         return Container();
     }
@@ -63,40 +97,37 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
         actions: [
-          GestureDetector(
-            onTap: (){
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const Cart()));
-            },
-            child: Stack(
-              children: [
-                IconButton(
-                  onPressed: () {},
-                  icon: const Icon(Icons.shopping_basket),
-                ),
-                Positioned(
-                  right: 5,
-                  top: 5,
-                  child: Container(
-                    width: 18.0,
-                    height: 18.0,
-                    decoration: BoxDecoration(
-                      color: Colors.green.shade900,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: const Center(
-                      child: Text(
-                        "1",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 10.0,
-                        ),
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                },
+                icon: const Icon(Icons.shopping_basket),
+              ),
+              Positioned(
+                right: 5,
+                top: 5,
+                child: Container(
+                  width: 18.0,
+                  height: 18.0,
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade900,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      "1",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10.0,
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           )
         ],
       ),

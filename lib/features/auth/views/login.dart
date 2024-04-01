@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harvestlink_app/features/auth/views/register.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/consumer/views/home.dart';
+import 'package:harvestlink_app/features/farmer/views/dashboard.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 import 'package:harvestlink_app/engine/storage/local_storage.dart';
@@ -18,6 +19,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final localStorage = LocalStorage();
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  String _userType = 'consumer';
 
   bool _isChecked = false;
   bool _obscureText = true;
@@ -44,12 +47,13 @@ class _LoginScreenState extends State<LoginScreen> {
     List res = await HTTPHandler().postDataRes('/login', credentials);
     int _status = int.parse(status.toString());
     if (_status == 200) {
-      if (_isChecked){
+      if (_isChecked) {
         localStorage.setIsLoggedIn(true);
       }
       //save user_details
       setState(() {
         userDetails = res;
+        _userType = res[0]['user_type'];
       });
       _saveUserDetails(userDetails);
     }
@@ -64,7 +68,6 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       await localStorage.setUserParam(entry.key, entry.value);
     }
-
   }
 
   Future<void> _getUser() async {
@@ -79,12 +82,23 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _getUserDetails(userDetails) async {
     print("User");
     var user_d = await localStorage.getUserParam('id');
+    var userType = await localStorage.getUserParam('user_type');
+    setState(() {
+      _userType = userType!;
+    });
     print(user_d);
+  }
+
+  Widget _loadPage() {
+    print(_userType);
+    if (_userType == 'consumer') {
+      return const HomePage();
+    }
+    return const Dashboard();
   }
 
   @override
   void initState() {
-    HTTPHandler().getData('/');
     super.initState();
     _getUser();
   }
@@ -92,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return _isLoggedIn
-        ? const HomePage()
+        ? _loadPage()
         : Scaffold(
             body: SingleChildScrollView(
               child: Padding(
@@ -181,10 +195,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                     if (!context.mounted) return;
                                     if (status == 200) {
                                       Navigator.pushReplacement(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  const HomePage()));
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (builder) => _loadPage()),
+                                      );
                                     } else {
                                       final snackBar = SnackBar(
                                         content: const Text(

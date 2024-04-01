@@ -256,6 +256,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         'Account created successfully'),
                                   ),
                                 );
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (builder) =>
+                                            const LoginScreen()));
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

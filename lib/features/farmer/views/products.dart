@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:harvestlink_app/features/consumer/widgets/home_app_bar.dart';
+import 'package:harvestlink_app/engine/api/http_handler.dart';
+import 'package:harvestlink_app/engine/storage/local_storage.dart';
+import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
 import 'package:harvestlink_app/features/consumer/widgets/product_card_vertical.dart';
-import '../../../templates/components/text_components.dart';
-import '../../../templates/constants/image.dart';
-import '../widgets/category_tile.dart';
-import '../widgets/search_container.dart';
+import 'package:harvestlink_app/features/farmer/widgets/farmer_product_card.dart';
+import 'package:harvestlink_app/templates/components/text_components.dart';
+import 'package:harvestlink_app/templates/constants/image.dart';
 
-class ShowProducts extends StatelessWidget {
-  ShowProducts({
-    super.key,
-    required this.screenSize,
-    required this.allProducts,
-  });
+class MyProducts extends StatefulWidget {
+  const MyProducts({super.key});
 
-  final Size screenSize;
-  final List allProducts;
+  @override
+  State<MyProducts> createState() => _MyProductsState();
+}
+
+class _MyProductsState extends State<MyProducts> {
+  final localStorage = LocalStorage();
+  List allProducts = [];
+
+  void getMyProducts() async {
+    var userId = await localStorage.getUserParam('id');
+    Map<String, dynamic> params = {"farmer_id": userId};
+    List res = await HTTPHandler().getDataWithBody('/products', params);
+    setState(() {
+      allProducts = res;
+    });
+  }
 
   Map<String, dynamic> categoriesMap = {
     "Vegetables": HLImage.imageVegetables,
@@ -27,6 +38,12 @@ class ShowProducts extends StatelessWidget {
   };
 
   @override
+  void initState() {
+    getMyProducts();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
@@ -34,8 +51,6 @@ class ShowProducts extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SearchContainer(screenSize: screenSize),
-            const SizedBox(height: 32.0),
             Padding(
               padding: const EdgeInsets.only(left: 16.0),
               child: Column(
@@ -69,7 +84,7 @@ class ShowProducts extends StatelessWidget {
               padding: const EdgeInsets.only(left: 16.0),
               child: Column(
                 children: [
-                  subHeaderTextBlack("Products"),
+                  subHeaderTextBlack("My Products"),
                   const SizedBox(height: 16.0),
                 ],
               ),
@@ -87,10 +102,10 @@ class ShowProducts extends StatelessWidget {
                     childAspectRatio: 0.55,
                   ),
                   itemBuilder: (context, index) {
-                    return ProductCardVertical(
+                    return FarmerProductCardVertical(
                       productId: allProducts[index]['id'],
                       productTitle: allProducts[index]['name'],
-                      vendor: allProducts[index]['farmer'],
+                      quantity: allProducts[index]['quantity'].toString(),
                       location: allProducts[index]['location'],
                       price: allProducts[index]['price'].toString(),
                       image: allProducts[index]['product_image'],

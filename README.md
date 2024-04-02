@@ -7,8 +7,14 @@ and decision-making for farmers of all scales, from smallholder subsistence farm
 operations.
 
 ## Key Features
-User Management: Create user profile and user authentication.
+<ul>
+<li>User Management: Create user profile and user authentication.<br>
 <img src="https://github.com/EvansSese/HarvestLink-App/blob/master/screenshots/register.png" width="240" height="509">
+</li>
+<li>
 Product management: Allow farmers to list , update and delete products and consumers to purchase products .
-Responsive design for mobile view: The application is responsive, accessible and user-friendly across android devices, enabling farmers and consumers to easily navigate and utilize the platform on mobile devices
-
+</li>
+<li>
+Responsive design for mobile view: The application is responsive, accessible and user-friendly across android devices, enabling farmers and consumers to easily navigate and utilize the platform on mobile devices.
+</li>
+</ul>

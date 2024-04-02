@@ -24,7 +24,6 @@ class HTTPHandler {
       var data = jsonDecode(response.body);
       return data;
     }
-    print(response.statusCode.toString());
     return [];
   }
 

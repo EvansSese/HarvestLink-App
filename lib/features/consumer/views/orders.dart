@@ -19,11 +19,9 @@ class _OrdersPageState extends State<OrdersPage> {
     var userId = await localStorage.getUserParam('id');
     Map<String, dynamic> params = {"consumer_id": userId};
     List res = await HTTPHandler().getDataWithBody('/orders', params);
-    print(res);
     setState(() {
       orderItems = res;
     });
-    print(orderItems.length.toString());
   }
 
   void _cancelOrder(String orderId) async {

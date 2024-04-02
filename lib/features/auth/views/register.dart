@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/auth/views/login.dart';
-import 'package:harvestlink_app/features/consumer/views/home.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -42,7 +41,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       'location': location,
       'password': password
     };
-    print(credentials);
     int status = await HTTPHandler().postData('/signup', credentials);
     return int.parse(status.toString());
   }

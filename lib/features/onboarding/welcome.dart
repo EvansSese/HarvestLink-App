@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 
 class Welcome extends StatelessWidget {

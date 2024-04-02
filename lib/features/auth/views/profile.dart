@@ -132,7 +132,7 @@ class _ProfileState extends State<Profile> {
             Center(
               child: OutlinedButton(
                   onPressed: () {
-                    localStorage.setIsLoggedIn(false);
+                    _logOut();
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(

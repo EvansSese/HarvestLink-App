@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:harvestlink_app/features/consumer/widgets/home_app_bar.dart';
+import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
 import 'package:harvestlink_app/features/consumer/widgets/product_card_vertical.dart';
-import '../../../templates/components/text_components.dart';
-import '../../../templates/constants/image.dart';
-import '../widgets/category_tile.dart';
-import '../widgets/search_container.dart';
+import 'package:harvestlink_app/features/consumer/widgets/search_container.dart';
+import 'package:harvestlink_app/templates/components/text_components.dart';
+import 'package:harvestlink_app/templates/constants/image.dart';
+
 
 class ShowProducts extends StatelessWidget {
   ShowProducts({
@@ -16,7 +16,7 @@ class ShowProducts extends StatelessWidget {
   final Size screenSize;
   final List allProducts;
 
-  Map<String, dynamic> categoriesMap = {
+  final Map<String, dynamic> categoriesMap = {
     "Vegetables": HLImage.imageVegetables,
     "Cereals": HLImage.imageCereals,
     "Fruits": HLImage.imageFruits,

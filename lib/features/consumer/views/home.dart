@@ -1,17 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
-import 'package:harvestlink_app/features/auth/views/login.dart';
 import 'package:harvestlink_app/features/auth/views/profile.dart';
 import 'package:harvestlink_app/features/consumer/views/orders.dart';
 import 'package:harvestlink_app/features/consumer/views/show_products.dart';
 import 'package:harvestlink_app/features/consumer/widgets/app_bar.dart';
-import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
-import 'package:harvestlink_app/features/consumer/widgets/home_app_bar.dart';
-import 'package:harvestlink_app/features/consumer/widgets/product_card_vertical.dart';
-import 'package:harvestlink_app/features/consumer/widgets/search_container.dart';
-import 'package:harvestlink_app/navigation_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
-import 'package:harvestlink_app/templates/constants/image.dart';
 import 'package:harvestlink_app/features/consumer/views/cart.dart';
 import 'package:harvestlink_app/engine/storage/local_storage.dart';
 
@@ -55,7 +48,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       cartData = res;
     });
-    print(cartData.length.toString());
   }
 
 

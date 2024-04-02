@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/engine/storage/local_storage.dart';
 import 'package:harvestlink_app/features/consumer/views/home.dart';
-import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';
 
 class ProductCardVertical extends StatelessWidget {

@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/consumer/views/home.dart';
@@ -25,11 +23,9 @@ class _CartState extends State<Cart> {
     var userId = await localStorage.getUserParam('id');
     Map<String, dynamic> params = {"consumer_id": userId};
     List res = await HTTPHandler().getDataWithBody('/cart', params);
-    print(res);
     setState(() {
       cartData = res;
     });
-    print(cartData.length.toString());
   }
 
   void _updateCartItem(String productId, int quantity) async {
@@ -80,7 +76,6 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     var screenSize = MediaQuery.of(context).size;
-    print(cartData.length);
     if (cartData[0]['cart_items'].isEmpty) {
       return Scaffold(
         appBar: ConsumerAppBar(
@@ -325,6 +320,7 @@ class _CartState extends State<Cart> {
               onPressed: () async {
                 bool _placed = await _checkOut();
                 if (_placed) {
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       action: SnackBarAction(

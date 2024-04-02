@@ -80,17 +80,13 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _getUserDetails(userDetails) async {
-    print("User");
-    var user_d = await localStorage.getUserParam('id');
     var userType = await localStorage.getUserParam('user_type');
     setState(() {
       _userType = userType!;
     });
-    print(user_d);
   }
 
   Widget _loadPage() {
-    print(_userType);
     if (_userType == 'consumer') {
       return const HomePage();
     }

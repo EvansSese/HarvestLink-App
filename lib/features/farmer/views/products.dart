@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/engine/storage/local_storage.dart';
 import 'package:harvestlink_app/features/consumer/widgets/category_tile.dart';
-import 'package:harvestlink_app/features/consumer/widgets/product_card_vertical.dart';
 import 'package:harvestlink_app/features/farmer/widgets/farmer_product_card.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
 import 'package:harvestlink_app/templates/constants/image.dart';

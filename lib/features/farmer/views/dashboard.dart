@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/engine/storage/local_storage.dart';
 import 'package:harvestlink_app/features/auth/views/login.dart';
+import 'package:harvestlink_app/features/farmer/views/orders.dart';
 import 'package:harvestlink_app/features/farmer/views/products.dart';
 import 'package:harvestlink_app/features/farmer/widgets/app_bar.dart';
 import 'package:harvestlink_app/templates/components/text_components.dart';
@@ -185,7 +186,7 @@ class _DashboardState extends State<Dashboard> {
       case 1:
         return const Center(child: Text('Market Page'));
       case 2:
-        return const Center(child: Text('Orders Page'));
+        return const FarmerOrders();
       case 3:
         return Center(
           child: Column(

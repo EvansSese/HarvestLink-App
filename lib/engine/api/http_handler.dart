@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class HTTPHandler {
-  String baseUrl = 'http://192.168.100.46:5050/api/v1';
+  String baseUrl = 'http://192.168.16.11:5050/api/v1';
 
   Future<List> getData(String endpoint) async {
     var url = Uri.parse('$baseUrl$endpoint');

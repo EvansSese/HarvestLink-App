@@ -154,13 +154,13 @@ class _DashboardState extends State<Dashboard> {
 
                 int status = await _addProduct(_name, _category, _price, _location, _quantity);
                 if (!context.mounted) return;
+                Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     backgroundColor: Colors.green.shade900,
                     content: const Text('Adding product...'),
                   ),
                 );
-                Navigator.pop(context);
                 if (status == 201) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
@@ -168,8 +168,7 @@ class _DashboardState extends State<Dashboard> {
                       content: const Text('Product added successfully'),
                     ),
                   );
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const Dashboard()));
+                  setState(() {});
                 }
               }
             },

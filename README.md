@@ -8,7 +8,7 @@ operations.
 
 ## Key Features
 User Management: Create user profile and user authentication.
-![alt text](https://github.com/EvansSese/HarvestLink-App/blob/master/screenshots/register.png?raw=true)
+<img src="https://github.com/EvansSese/HarvestLink-App/blob/master/screenshots/register.png" width="100" height="100">
 Product management: Allow farmers to list , update and delete products and consumers to purchase products .
 Responsive design for mobile view: The application is responsive, accessible and user-friendly across android devices, enabling farmers and consumers to easily navigate and utilize the platform on mobile devices
 

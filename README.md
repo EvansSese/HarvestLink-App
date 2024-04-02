@@ -10,6 +10,7 @@ operations.
 <ul>
 <li>User Management: Create user profile and user authentication.<br>
 <img src="https://github.com/EvansSese/HarvestLink-App/blob/master/screenshots/register.png" width="240" height="509">
+<img src="https://github.com/EvansSese/HarvestLink-App/blob/master/screenshots/register.png" width="240" height="509">
 </li>
 <li>
 Product management: Allow farmers to list , update and delete products and consumers to purchase products .

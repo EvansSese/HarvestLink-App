@@ -160,6 +160,7 @@ class _DashboardState extends State<Dashboard> {
                     content: const Text('Adding product...'),
                   ),
                 );
+                Navigator.pop(context);
                 if (status == 201) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(

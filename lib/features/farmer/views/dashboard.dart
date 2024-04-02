@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/engine/storage/local_storage.dart';
 import 'package:harvestlink_app/features/auth/views/login.dart';
+import 'package:harvestlink_app/features/auth/views/profile.dart';
 import 'package:harvestlink_app/features/farmer/views/orders.dart';
 import 'package:harvestlink_app/features/farmer/views/products.dart';
 import 'package:harvestlink_app/features/farmer/widgets/app_bar.dart';
@@ -184,28 +185,9 @@ class _DashboardState extends State<Dashboard> {
       case 0:
         return const MyProducts();
       case 1:
-        return const Center(child: Text('Market Page'));
-      case 2:
         return const FarmerOrders();
-      case 3:
-        return Center(
-          child: Column(
-            children: [
-              const Text('Profile Page'),
-              const SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () {
-                  localStorage.setIsLoggedIn(false);
-                  Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (builder) => const LoginScreen()));
-                },
-                child: const Text("Logout"),
-              ),
-            ],
-          ),
-        );
+      case 2:
+        return const Profile();
       default:
         return Container();
     }
@@ -246,10 +228,6 @@ class _DashboardState extends State<Dashboard> {
           NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.store),
-            label: 'Market',
           ),
           NavigationDestination(
             icon: Icon(Icons.shopping_cart),

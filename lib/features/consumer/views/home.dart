@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:harvestlink_app/engine/api/http_handler.dart';
 import 'package:harvestlink_app/features/auth/views/login.dart';
+import 'package:harvestlink_app/features/auth/views/profile.dart';
 import 'package:harvestlink_app/features/consumer/views/orders.dart';
 import 'package:harvestlink_app/features/consumer/views/show_products.dart';
 import 'package:harvestlink_app/features/consumer/widgets/app_bar.dart';
@@ -47,16 +48,10 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Future<void> _logOut() async {
-    await localStorage.setIsLoggedIn(false);
-    _getUser();
-  }
-
   void _getCartItems() async {
     var userId = await localStorage.getUserParam('id');
     Map<String, dynamic> params = {"consumer_id": userId};
     List res = await HTTPHandler().getDataWithBody('/cart', params);
-    print(res);
     setState(() {
       cartData = res;
     });
@@ -77,26 +72,9 @@ class _HomePageState extends State<HomePage> {
       case 0:
         return ShowProducts(screenSize: screenSize, allProducts: allProducts);
       case 1:
-        return const Center(child: Text('Market Page'));
-      case 2:
         return const OrdersPage();
-      case 3:
-        return Center(
-          child: Column(
-            children: [
-              const Text('Profile Page'),
-              const SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () {
-                  localStorage.setIsLoggedIn(false);
-                  Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (builder)=> const LoginScreen()));
-                },
-                child: const Text("Logout"),
-              ),
-            ],
-          ),
-        );
+      case 2:
+        return const Profile();
       default:
         return Container();
     }
@@ -163,10 +141,6 @@ class _HomePageState extends State<HomePage> {
           NavigationDestination(
             icon: Icon(Icons.home),
             label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.store),
-            label: 'Market',
           ),
           NavigationDestination(
             icon: Icon(Icons.shopping_cart),
